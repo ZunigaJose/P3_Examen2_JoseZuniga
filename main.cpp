@@ -76,10 +76,31 @@ void nuevaTupla() {
   tupla.guardar(relaciones[pos].getNombre());
 }
 
-void escribirTuplas() {
+void cargarTuplas() {
   fstream archivo;
+  string linea;
   for (int i = 0; i < relaciones.size(); i++) {
-    crearArc(archivo, relaciones[i].getNombre());
+    archivo.open(relaciones[i].getNombre() + ".txt", ios::in);
+    if(archivo) {
+      while(getline(archivo, linea)) {
+        int n = 0;
+        int num = getNumValues(linea);
+        string token[num];
+        for (int i = 0; i < linea.size(); i++) {
+          if (linea.at(i) == ';') {
+            n++;
+          } else if(linea.at(i)) {
+            token[n] = token[n] + linea.at(i);
+          }
+        }
+        Tupla tupla;
+        for (int i = 1; i < num; i++) {
+          tupla.setObj(token[i]);
+        }
+        tupla.setId(stoi(token[0]));
+        relaciones[i].setTupla(tupla);
+      }
+    }
   }
 }
 
@@ -128,8 +149,8 @@ int main() {
   fstream Relaciones;
   Relaciones.open("Relaciones.txt", ios::in);
   cargarRelaciones(Relaciones);
-  //crearRelacion();
-  nuevaTupla();
+  cargarTuplas();
+  //nuevaTupla();
   //cargarTuplas();
   return 0;
 }
