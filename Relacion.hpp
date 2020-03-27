@@ -14,4 +14,6 @@ class Relacion {
     Relacion(string);
     void setEncabezado(string encabezado) {encabezados.push_back(encabezado);}
     void setTupla(Tupla tupla) {Tuplas.push_back(tupla);}
+    string getNombre() {return nombre;}
+    void guardar();
 };
