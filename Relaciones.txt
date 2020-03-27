@@ -1,3 +1,4 @@
 Estudiantes;ID;Cuenta;Nombre;Apellido;Edad;
 Notas;ID;Portugues;Progra3;LabProgra3;Calculo2;
 Covid-19;ID;Casos;Muertos;Recuperados;Pais;
+InventarioCuarentena;ID;Producto;Cantidad;

@@ -82,7 +82,11 @@ void nuevaTupla() {
   int pos = seleccionarRelacion();
   vector<string> entries;
   string entry;
-  for (int i = 0; i < relaciones[pos].encabezados.size(); i++) {
+  int arreglo = 1;
+  if(relaciones[pos].encabezados[0] != "ID") {
+    arreglo = 0;
+  }
+  for (int i = arreglo; i < relaciones[pos].encabezados.size(); i++) {
     cout << "Ingrese el valor de " << relaciones[pos].encabezados[i] << ": ";
     cin >> entry;
     entries.push_back(entry);
@@ -90,6 +94,7 @@ void nuevaTupla() {
   Tupla tupla;
   tupla.objs = entries;
   tupla.guardar(relaciones[pos].getNombre());
+  relaciones[pos].setTupla(tupla);
 }
 
 void cargarTuplas() {
@@ -183,8 +188,7 @@ int main() {
       break;
     }
   } while(op);
-  //verRelaciones();
-  //nuevaTupla();
-  //cargarTuplas();
+  Relaciones.close();
+  cout << "Ha sido un gusto, gracias!" << endl;
   return 0;
 }
