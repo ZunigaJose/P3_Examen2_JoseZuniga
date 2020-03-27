@@ -50,13 +50,40 @@ int menu() {
 }
 
 void listarRelaciones() {
+  for (int i = 0; i < relaciones.size(); i++) {
+    cout << i << " " << relaciones[i].getNombre() << endl;
+  }
+}
 
+int menuContinue() {
+  int op;
+  cout << "Presione 0 para salir / Cualquier tecla para continuar: ";
+  cin >> op;
+  return op;
+}
+
+void crearRelacion() {
+  string nombre;
+  cout << "Ingrese el nombre de la Relacion: ";
+  cin >> nombre;
+  Relacion rela(nombre);
+  relaciones.push_back(rela);
+  int nEnca = 1;
+  string enca;
+  do {
+    cout << "Ingrese el encabezado " << nEnca << " : ";
+    cin >> enca;
+    relaciones[relaciones.size() - 1].setEncabezado(enca);
+    nEnca++;
+  } while(menuContinue());
+  relaciones[relaciones.size() - 1].guardar();
 }
 
 int main() {
   fstream Relaciones;
   Relaciones.open("Relaciones.txt", ios::in | ios::out);
   cargarRelaciones(Relaciones);
-  cout << relaciones[0].getNombre();
+  crearRelacion();
+  listarRelaciones();
   return 0;
 }

@@ -1,1 +1,2 @@
 Estudiantes;ID;Cuenta;Nombre;Apellido;Edad;
+Notas;Portugues;Progra3;LabProgra3;Calculo2;
