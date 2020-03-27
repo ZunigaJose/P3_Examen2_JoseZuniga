@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
+#include <iomanip>
 using namespace std;
 
 vector<Relacion> relaciones;
@@ -62,11 +63,26 @@ int seleccionarRelacion() {
     return op;
 }
 
+void verRelaciones() {
+  int pos = seleccionarRelacion();
+  for (int i = 0; i < relaciones[pos].encabezados.size(); i++) {
+    cout << setw(12) << relaciones[pos].encabezados[i];
+  }
+  cout << endl;
+  for (int i = 0; i < relaciones[pos].Tuplas.size(); i++) {
+    cout << setw(12) << relaciones[pos].Tuplas[i].getId();
+    for (int j = 0; j < relaciones[pos].Tuplas[i].objs.size(); j++) {
+      cout << setw(12) << relaciones[pos].Tuplas[i].objs[j];
+    }
+    cout << endl;
+  }
+}
+
 void nuevaTupla() {
   int pos = seleccionarRelacion();
   vector<string> entries;
   string entry;
-  for (int i = 1; i < relaciones[pos].encabezados.size(); i++) {
+  for (int i = 0; i < relaciones[pos].encabezados.size(); i++) {
     cout << "Ingrese el valor de " << relaciones[pos].encabezados[i] << ": ";
     cin >> entry;
     entries.push_back(entry);
@@ -82,6 +98,7 @@ void cargarTuplas() {
   for (int i = 0; i < relaciones.size(); i++) {
     archivo.open(relaciones[i].getNombre() + ".txt", ios::in);
     if(archivo) {
+      cout << "arc " << (relaciones[i].getNombre() + ".txt");
       while(getline(archivo, linea)) {
         int n = 0;
         int num = getNumValues(linea);
@@ -101,6 +118,7 @@ void cargarTuplas() {
         relaciones[i].setTupla(tupla);
       }
     }
+    archivo.close();
   }
 }
 
@@ -147,9 +165,25 @@ void crearRelacion() {
 
 int main() {
   fstream Relaciones;
+  int op;
   Relaciones.open("Relaciones.txt", ios::in);
   cargarRelaciones(Relaciones);
   cargarTuplas();
+  do {
+    op = menu();
+    switch (op) {
+      case 1:
+        crearRelacion();
+      break;
+      case 2:
+        verRelaciones();
+      break;
+      case 3:
+        nuevaTupla();
+      break;
+    }
+  } while(op);
+  //verRelaciones();
   //nuevaTupla();
   //cargarTuplas();
   return 0;
