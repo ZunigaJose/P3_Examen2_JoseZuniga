@@ -9,7 +9,7 @@ Relacion::Relacion(string Nombre) {
 void Relacion::guardar() {
   fstream archivo;
   archivo.open("Relaciones.txt", ios::app);
-  archivo << nombre << ";";
+  archivo << nombre << ";" << "ID" << ";";
   for(int i = 0; i < encabezados.size(); i++) {
     archivo << encabezados[i] << ";";
   }

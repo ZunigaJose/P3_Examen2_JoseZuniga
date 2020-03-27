@@ -6,10 +6,10 @@ using namespace std;
 
 class Relacion {
   private:
-    vector<string> encabezados;
-    vector<Tupla> Tuplas;
     string nombre;
   public:
+    vector<string> encabezados;
+    vector<Tupla> Tuplas;
     Relacion() {};
     Relacion(string);
     void setEncabezado(string encabezado) {encabezados.push_back(encabezado);}

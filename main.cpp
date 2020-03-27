@@ -18,6 +18,18 @@ int getNumValues(string linea) {
   return vals;
 }
 
+void listarRelaciones();
+
+void crearArc(fstream &archivo, string name) {
+  archivo.open(name + ".txt", ios::in);
+  if(!archivo) {
+    cout << "Aqui!!";
+    archivo.open(name + ".txt", ios::trunc | ios::in);
+    archivo.close();
+    archivo.open(name + ".txt", ios::in);
+  }
+}
+
 void cargarRelaciones(fstream &archivo) {
   string linea;
   while(getline(archivo, linea)) {
@@ -35,6 +47,39 @@ void cargarRelaciones(fstream &archivo) {
     for (int i = 1; i < num; i++) {
       relaciones[relaciones.size() - 1].setEncabezado(token[i]);
     }
+  }
+}
+
+int seleccionarRelacion() {
+  listarRelaciones();
+  int op;
+  cout << "Ingrese su opcion: ";
+  cin >> op;
+    while(op < 0 || op > relaciones.size() - 1){
+      cout << "Valor invalido!\nVuelva a intentar: ";
+      cin >> op;
+    }
+    return op;
+}
+
+void nuevaTupla() {
+  int pos = seleccionarRelacion();
+  vector<string> entries;
+  string entry;
+  for (int i = 1; i < relaciones[pos].encabezados.size(); i++) {
+    cout << "Ingrese el valor de " << relaciones[pos].encabezados[i] << ": ";
+    cin >> entry;
+    entries.push_back(entry);
+  }
+  Tupla tupla;
+  tupla.objs = entries;
+  tupla.guardar(relaciones[pos].getNombre());
+}
+
+void escribirTuplas() {
+  fstream archivo;
+  for (int i = 0; i < relaciones.size(); i++) {
+    crearArc(archivo, relaciones[i].getNombre());
   }
 }
 
@@ -81,9 +126,10 @@ void crearRelacion() {
 
 int main() {
   fstream Relaciones;
-  Relaciones.open("Relaciones.txt", ios::in | ios::out);
+  Relaciones.open("Relaciones.txt", ios::in);
   cargarRelaciones(Relaciones);
-  crearRelacion();
-  listarRelaciones();
+  //crearRelacion();
+  nuevaTupla();
+  //cargarTuplas();
   return 0;
 }
